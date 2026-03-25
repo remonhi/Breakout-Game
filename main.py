@@ -1,414 +1,108 @@
+import pong        # - for the pong game
+import time        # - for time function
+import art         # - for ASCII art
+import turtle      # - for turtle (the old Tcl/Tk) graphics
+import time        # - for time functions
+import random      # - for random number generation
+import os          # - for OS commands to clear the screen
 
-#- Import modules to follow my CONVENTIONS 
+# - Yellow -  Information with a general, but relative importance
+# ? Orange -  Examples, abbreviations, acronyms, or explanations
+# + Green -  Key words, proper nouns, dates, symbols or mathematical formulas
+# ~ Blue -  Definitions of key words, or tabular data
+# ! Pink - Important, relative to a test or my career
+# * Purple -  Personal interest
+# // Gray - Done
 
-import art                      # ASCII art
-import os                       # OS commands to clear the screen
-import sys                      # System-specific parameters and functions
-import requests                 # Making HTTP requests
-import random                   # Random number generation
-import time                     # Time-related functions
+# - establishing variables, immporting modules and setting up functions
 
-import lib                      # My library of functions and variables
+W = 800
+H = 600
+C = 20
 
-import tkinter as tk            # Tcl/Tk library 
-from tkinter import ttk         # Themed Tkinter widgets
-import tkinter.font as tkfont  # Font handling in Tkinter
 
+def clear_screen():
+    if os.name == 'nt':  # 'nt' stands for Windows
+        os.system('cls')
+    else:  # For macOS and Linux (posix-based systems)
+        os.system('clear')
 
 
+# - the MAIN program
 
+clear_screen()  # - text based
+day = "Breakout"
+nam = os.path.basename(__file__)
+nam = nam.replace(".py", "")
+day = day + " - " + nam
+print(art.text2art(day, font='medium'))
 
-#- Define "global" variables and functions.
+# - Module 161 | Setting up the screen
 
-title = "Typing Speed Test"
+screen = turtle.Screen()
+screen.setup(width=W, height=H)
+screen.bgcolor("black")
+screen.title(day)
+screen.tracer(0)  # - turning off the annimation
 
-APP_WIDTH = 600
-APP_HEIGHT = 600                    
-OFFSETX = 100
-OFFSETY = 50
+# - Module 162 | Creating and moving the right paddle
+# - Module 163 | Cleaning up class and creating left paddle
+# - Module 164 | Adding the ball
+# - Module 165 | Detecting collision with the wall
+# - Module 166 | Detecting collision with the paddle
 
-start_time = None
-elapsed_time = 0
-typed_chars = 0
-correct_chars = 0
-test_status = False
-errors = 0
 
-font_title = ("Segoe UI", 16, "bold")
-font_body  = ("Segoe UI", 12)
-font_stat  = ("Segoe UI", 14, "bold")
+game_over = False
 
+right_paddle = pong.Paddle((350, 0))
+left_paddle = pong.Paddle((-350, 0))
+ball = pong.Ball()
+scoreboard = pong.Scoreboard()
 
 
-def on_key(event):
-    global start_time, typed_chars, correct_chars, errors, test_status
+screen.update()  # - update the screen because tracer turned off the animation
+screen.listen()
 
-    # Stop if test is finished
-    if test_status:
-        return
+screen.onkey(right_paddle.up, "Up")
+screen.onkey(right_paddle.down, "Down")
 
-    key = event.char
+screen.onkey(left_paddle.up, "w")
+screen.onkey(left_paddle.down, "s")
 
-    # Start timer on first keystroke
-    if start_time is None:
-        start_time = time.time()
+ball.setheading(random.randint(0, 360))
+ball.setheading(10)
 
-    # BACKSPACE
-    if event.keysym == "BackSpace":
-        txt_feed.config(state="normal")
-        txt_feed.delete("end-2c", "end-1c")
-        txt_feed.config(state="disabled")
 
-        if typed_chars > 0:
-            typed_chars -= 1
+ball.goto(0, 0)
+while game_over == False:
+    # - bound off top and bottom
+    if ball.ycor() >= (H/2) or ball.ycor() <= (-H/2):
+        ball.bounce_wall()
+        print("bounce off the wall")
 
-        update_live_stats()
-        return
+    # - bounce off paddle
+    if ball.distance(right_paddle) < 50 and ball.xcor() > (H/2-C) or ball.distance(left_paddle) < 50 and ball.xcor() < -(H/2-C):
+        ball.bounce_paddle()
+        print("bounce off the paddle")
 
-    # IGNORE MODIFIER KEYS
-    if event.keysym in ("Shift_L", "Shift_R", "Control_L", "Control_R", "Alt_L", "Alt_R"):
-        return
+    # - miss by player and start moving in the opposite direction
+    if ball.xcor() >= (W/2) or ball.xcor() <= (-W/2):
+        if ball.xcor() >= (W/2):
+            scoreboard.left_score += 1
+            scoreboard.board_update()
+        elif ball.xcor() <= (-W/2):
+            scoreboard.right_score += 1
+            scoreboard.board_update()
 
-    # NORMAL CHARACTER
-    if key:
-        typed_chars += 1  # Count EVERY keystroke
+        ball.goto(0, 0)
+        ball.setheading(180 - ball.heading())
+        screen.update()
+        time.sleep(3)
+        print("reset after miss by player")
 
-        index = correct_chars  # Where we are in the passage
+    ball.move()
 
-        if index < len(passage_text):
-            expected = passage_text[index]
+    screen.update()
 
-            if key == expected:
-                # CORRECT KEY
-                correct_chars += 1
 
-                txt_feed.config(state="normal")
-                txt_feed.insert("end", key, "correct")
-                txt_feed.tag_config("correct", foreground="black")
-                txt_feed.config(state="disabled")
-                txt_feed.see("end")
-
-            else:
-                # WRONG KEY
-                errors += 1
-
-                txt_feed.config(state="normal")
-                txt_feed.insert("end", key, "wrong")
-                txt_feed.tag_config("wrong", foreground="red")
-                txt_feed.config(state="disabled")
-                txt_feed.see("end")
-
-        update_live_stats()
-
-        # End test when all correct characters have been typed
-        if correct_chars >= len(passage_text):
-            test_status = True
-            end_test()
-            return
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def update_live_stats():
-
-    global errors
-    
-    if start_time is None:
-        return
-
-    elapsed = time.time() - start_time
-    minutes = elapsed / 60 if elapsed > 0 else 1e-9
-
-    gwpm = (typed_chars / 5) / minutes
-
-
-    accuracy = (correct_chars / typed_chars) * 100 if typed_chars > 0 else 0
-
-    lbl_gwpm.config(text=f"GWPM: {gwpm:.1f}")
-    lbl_acc.config(text=f"Accuracy: {accuracy:.1f}%")
-    lbl_err.config(text=f"Errors: {errors}")
-
-
-def end_test():
-
-    global start_time, typed_chars, correct_chars, errors
-
-    elapsed = time.time() - start_time
-    minutes = elapsed / 60
-
-    wpm = (typed_chars / 5) / minutes if minutes > 0 else 0.                                    # WPM calculation
-
-    accuracy = (correct_chars / typed_chars) * 100 if typed_chars > 0 else 0                    # Accuracy calculation
-
-    gwpm = (correct_chars / 5) / minutes if minutes > 0 else 0                                  # Gross WPM calculation
-
-  # Update statistics frame
-
-
-    lbl_gwpm.config(text=f"GWPM: {gwpm:.1f}")
-    lbl_acc.config(text=f"Accuracy: {accuracy:.1f}%")
-    lbl_err.config(text=f"Errors: {errors}")
-
-def get_valid_passage():
-    min_len = 150
-    max_len = 350
-
-    for _ in range(10):
-        text = lib.passage()
-        if min_len <= len(text) <= max_len:
-            return text
-    
-    return "Error: Could not fetch a passage of acceptable length."
-
-def reset_test():
-    global start_time, elapsed_time, typed_chars, correct_chars, test_status, passage_text, errors
-
-    # Reset state
-    start_time = None
-    elapsed_time = 0
-    typed_chars = 0
-    correct_chars = 0
-    test_status = False
-    errors = 0
-
-
-    # Fetch a new passage
-    passage_text = get_valid_passage()
-
-    # Clear the feed window
-    txt_feed.config(state="normal")
-    txt_feed.delete("1.0", "end")
-    txt_feed.config(state="disabled")
-
-    # Display the new passage
-    lbl_pasg.config(state="normal")
-    lbl_pasg.config(text=passage_text)
-
-    # Reset statistics labels
-    lbl_gwpm.config(text="GWPM: 0")
-    lbl_acc.config(text="Accuracy: 0%")
-    lbl_err.config(text="Errors: 0")
-
-#- Set up APIs
-
-#- Start with my CONVENTION of introductory information  
-
-lib.clear_screen()
-
-#print(art.text2art(title, font='medium'))
-
-#- Setup APPLICATION LOGIC "layer" for business logic, routing, templates, etc. 
-
-#- Working on finding an excerpt for the test
-
-# print(lib.passage())
-
-
-
-#- Working on setting up application space
-
-root = tk.Tk()                  # setting up TKinter window 
-root.configure(bg="#F5F7FA")  # set background color 
-sw = root.winfo_screenwidth()   # to center on screen 
-sh = root.winfo_screenheight()
-x = (sw - APP_WIDTH) // 2
-y = (sh - APP_HEIGHT) // 2
-root.geometry(f"{APP_WIDTH}x{APP_HEIGHT}+{x}+{y}")
-root.resizable(False, True)     # allow resizing only for height 
-root.title(title)               # set the title of the window
-
-#- Setting up Frames for each section
-
-#! Statistics 
-
-frm_stat = tk.Frame(
-    root,
-    bg="#F0F2F5",          # soft modern gray
-    height=80,
-    bd=2,
-    relief="solid"
-)
-frm_stat.pack(
-    fill="x", 
-    padx=20, 
-    pady=10
-    )
-
-frm_stat.pack_propagate(False)
-
-# Modern font for stats
-font_stat = ("Segoe UI", 14, "bold")
-
-# --- CREATE LABELS ---
-lbl_gwpm = tk.Label(frm_stat, text="GWPM: 0", font=font_stat, bg="#F0F2F5", fg="#111827")
-lbl_acc  = tk.Label(frm_stat, text="Accuracy: 0%", font=font_stat, bg="#F0F2F5", fg="#111827")
-lbl_err  = tk.Label(frm_stat, text="Errors: 0", font=font_stat, bg="#F0F2F5", fg="#111827")
-
-# --- GRID LAYOUT FOR PERFECT CENTERING ---
-frm_stat.grid_columnconfigure(0, weight=1)
-frm_stat.grid_columnconfigure(1, weight=1)
-frm_stat.grid_columnconfigure(2, weight=1)
-
-lbl_gwpm.grid(row=0, column=0, padx=10, pady=20, sticky="n")
-lbl_acc.grid(row=0, column=1, padx=10, pady=20, sticky="n")
-lbl_err.grid(row=0, column=2, padx=10, pady=20, sticky="n")
-
-
-#! Passage 
-
-passage_text = get_valid_passage()
-
-frm_pasg = tk.Frame(
-    root,
-    bg="#FFFFFF",
-    highlightbackground="#D0D7DE",
-    highlightthickness=1,
-    bd=2,
-    relief="solid"
-)
-frm_pasg.pack(fill="x", padx=20, pady=10)
-
-# --- PASSAGE LABEL ---
-lbl_pasg = tk.Label(
-    frm_pasg,
-    text=passage_text,
-    font=("Arial", 16),
-    justify="center",
-    bg="#FFFFFF",
-    fg="#111827",
-    anchor="center",     
-    padx=2,         
-    pady=8
-)
-lbl_pasg.pack(fill="both", expand=True)
-
-
-
-
-#! Feedback
-
-frm_feed = tk.Frame(
-    root,
-    bg="#FFFFFF",
-    bd=2,
-    height=frm_pasg.winfo_reqheight(),  # match passage frame height
-    relief="solid"
-)
-frm_feed.pack(
-    fill="x", 
-    padx=20, 
-    pady=10)
-
-txt_feed = tk.Text(
-    frm_feed,
-    bg="#FFFFFF",
-    fg="#111827",
-    font=("Consolas", 14),
-    wrap="word",
-    padx=10,
-    pady=10,
-    relief="flat"
-)
-
-txt_feed.config(state="disabled")
-
-
-root.update_idletasks()   # force Tkinter to calculate real sizes
-
-label_width = lbl_pasg.winfo_width()
-font = tkfont.Font(font=lbl_pasg["font"])
-text = lbl_pasg.cget("text")
-words = text.split()
-lines = []
-current = ""
-
-for w in words:
-    test = (current + " " + w).strip()
-    if font.measure(test) <= label_width - 20:   # subtract padding
-        current = test
-    else:
-        lines.append(current)
-        current = w
-lines.append(current)
-
-passage_line_count = len(lines)
-feedback_height = passage_line_count + 1
-txt_feed.config(height=feedback_height)
-
-txt_feed.pack(fill="both", expand=True)
-
-
-
-#! Controls
-
-frm_ctrl = tk.Frame(
-    root,
-    bg="#FFFFFF",
-    height=70,          # smaller height
-    bd=2,
-    relief="solid"
-)
-frm_ctrl.pack(
-    fill="x", 
-    padx=20, 
-    pady=10)   # matches feedback frame spacing
-
-frm_ctrl.pack_propagate(False)
-
-# --- BUTTON STYLE ---
-style = ttk.Style()
-style.theme_use("clam")
-
-style.configure(
-    "Ctrl.TButton",
-    font=("Segoe UI", 12, "bold"),
-    padding=8,          # smaller padding for tighter buttons
-    foreground="white",
-    background="#2563EB",
-    borderwidth=0
-)
-
-style.map(
-    "Ctrl.TButton",
-    background=[("active", "#1E4FCF")],
-    foreground=[("active", "white")]
-)
-
-# --- GRID LAYOUT ---
-for col in range(6):
-    frm_ctrl.grid_columnconfigure(col, weight=1)
-
-# --- BUTTONS ---
-btn_reset = ttk.Button(frm_ctrl, text="Reset", style="Ctrl.TButton", command=reset_test)
-btn_quit  = ttk.Button(frm_ctrl, text="Quit",  style="Ctrl.TButton", command=root.quit)
-
-btn_reset.grid(row=0, column=2, padx=10, pady=5, sticky="nsew")   # reduced vertical padding
-btn_quit.grid(row=0, column=3, padx=10, pady=5, sticky="nsew")
-
-
-
-
-
-#! The main loop to display the window and respond to events
-
-root.update_idletasks()
-root.geometry(f"{root.winfo_reqwidth()}x{root.winfo_reqheight()}")
-root.bind("<Key>", on_key)      # bind key events to the on_key function
-root.mainloop()                 # the loop to display and respond to events 
-
-
-
-
-
-
+screen.exitonclick()
