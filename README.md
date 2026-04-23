@@ -159,17 +159,28 @@ Okay, life interrupted and
             - Copy pong.py to breakout.py
             - Copied main.py to main-pong.py
             - Cleaned up main.py breakout.py
+            - Then, problems with pushing to GitHub
+
 
 
 ### 4/23/26-, Coding Time 
 
 1. Main screen - Create the main screen
 
-    a. Back to reviewing the requirements
-    b. Then, laying out the main screen
-    c. 
-
-
+    a. First address OneDrive issues
+        - Confirm able to push my 'Day 87' code to GitHub
+        - Then, move everything under Python to a local directory
+        - Last, setup rsync for a backup to OneDrive
+        - Finally, moving forward with everything in a "local" file system
+        - 
+    
+    b. Back to reviewing the requirements
+    
+    c. Then, laying out the main screen
+    
+    d.
+    
+     
 
 2. The paddle
 
