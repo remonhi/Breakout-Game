@@ -1,5 +1,5 @@
 
-import breakout    #! starting with the pong game, but slowly transformed 
+import pong        #! for the pong game
 import lib         #* my own library of "stuff" 
 import time        #- for time function
 import art         #- for ASCII art
@@ -53,10 +53,10 @@ screen.tracer(0)  # - turning off the annimation
 
 game_over = False
 
-right_paddle = breakout.Paddle((350, 0))
-left_paddle = breakout.Paddle((-350, 0))
-ball = breakout.Ball()
-scoreboard = breakout.Scoreboard()
+right_paddle = pong.Paddle((350, 0))
+left_paddle = pong.Paddle((-350, 0))
+ball = pong.Ball()
+scoreboard = pong.Scoreboard()
 
 screen.update()  #- update the screen because tracer turned off the animation
 screen.listen()  #- this is essential for reading from the keyboard 

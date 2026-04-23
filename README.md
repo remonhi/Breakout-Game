@@ -48,11 +48,11 @@ Alright, for the 'Breakout Game.'
 
     1. Game History - Okay, from https://en.wikipedia.org/wiki/Breakout_(video_game) I learned a lot about this game.  I did not realize the envolvement from Apple founders.  Most of the challenges "back in the day" was about the right hardwware.  It is interesting that "these days" hardware is hardly a limtation.  
 
-    2. Turtle Review - So, in some way glad not be workign with Tkinter; however, the Turtle() library is not the most fun in the world.  Also, as I thought about the design my research lead me to the appraoch there only need to be 3 Turle() instances...the paddle, the ball and the blocks.  My original idea was to make a Turtle instance for each little piece of block; however, apparently that would be a problem for the refresh. So, it is easier just to refresh one "giant" turle.  
+    2. Turtle Review - So, in some way glad not be working with Tkinter; however, the Turtle() library is not the most fun in the world.  Also, as I thought about the design my research lead me to the appraoch there only need to be 3 Turtle() instances...the paddle, the ball and the blocks.  My original idea was to make a Turtle instance for each little piece of block; however, apparently that would be a problem for the refresh. So, it is easier just to refresh one "giant" turle.  
  
     3. Previous Work - As the assignemnt suggested, I wanted to go back to Day 22.  Well, this was about a "relative" of Breakout and that is Pong.  Well, my approqach to writing and organizing my code is a bit different now.  Anyway, I decided to "migrate" Pong from May of 2025 to March of 2026.
 
-        Saved 168.67 as main.py
+        Saved 168.py as main.py
         
         Also, saved pong.py in to current directory
         
@@ -80,19 +80,111 @@ Alright, for the 'Breakout Game.'
 
 
             - Day 161 
+                - Before starting module, find an test external monitor setup
+                - Then, life interrupted.
+
+
+### 4/22/26-4/23/26, Getting Back
+
+Okay, life interrupted and 
+
+1. Python Update - Well, looks like last update with Python was using HomeBrew.  So, I ran...
+
+    brew update
+    brew update python
+
+    ...and after udpated finished, I noted the status indicated all the symbomlic links updated.  I confirmed version with 'python --version.' ✅
+
+2. VS Code Update - After opening, this seemed to be at version 1.113.0.  After checking for update, looking at version 1.117.0. ✅
+
+3. OneDrive Sync - Yes, marked all directories as 'Always Keep on This Device.'  Then, found myself waiting all night for sync. Even in the next day, this was a probem.  It seems that the OneDrive applciaton crashed.  After a couple restarts, it seems that 'Day 87' was ready; however, there were many more files being downloaded.  ✅
+
+4. Refreshing environment - 
+
+    a. Confirm sync with GitHub - I was first thinking of pulling from GitHub, but realized this was updated at last stoppign point.  So, at this moment just wanted to make sure GitHub sync was still working.  Well, this just seemed to hang but I think this might be related to the issues with OneDrive.  Yes, that is definitely the problem; therefore, I just had to wait overnight to have the directory sync.  Yes, on Thursday finally got this thing working. ✅
+
+    b. Setup virtual enviroment - source venv/bin/activate ✅
+
+    c. See what is currently working - python main.py, and yes the "broken" Pong game started. ✅
+
+5. Attack Plan 
+
+    a. Refresh knowledge - Yeah, to reduce my dependance on AI decided to rerun 'Day 22'
+
+        Module 160 - 
+            - This was just an overview, so took time to just clean up the code.  
+            - BTW, gonna with with my "own stuff" in lib.py, but might rename. 
+            - Then, wasted a lot of time tweaking the Better Comments code for a better yelllow highlight
+
+        Module 161 - 
+            - Yeah, some more clean up of my code to match my conventin.  
+            - Then, just a quick run though to refresh on how to setup a screen.
+
+        Module 162 - 
+            - This was to create the right paddle, so going in to pong.py file/module.  
+            - Interesting tidbit that all turtles start off at 20 x 20
+            - Look at this module, intersting that my code has created a Paddle class.
+            - Also, .tracer() and .listen() important for Turtle; however, don't plan on using this everyday
+
+        Module 163 - 
+            - Hmmm, just watched video and looked at my code.
+            - I ran the code and everyhing was stuck, so decided figure it out. 
+            - I go it all cleaned up and then decided this needed a proper quit (just using "q")
+            - Did not like traceback on exit, so got help to clean up . 
+            - This was a good refresher on how my code got this way
+            
+        Module 164 - 
+            - Well, had a little more time to kill today so I continued to work on this.
+            - Hmmm, my code used .forward() versus the move() created in the module
+            - With some help, .forward() just help to move in direction it is already going
+            - Don't know how I ended up using .forward()
+
+        Module 165 -
+            - Okay, I had put in some much different "bouncing" math into my code
+            - Did not drive myself crazy with "refactoring" the math        
+
+        Module 166 -
+            - Again, my own math here
+            - Cleaned up the loop and got it working again
+
+        Module 167 -
+            - Ditto, my own code here
+            - Just worked on cleaning up code.
+
+        Module 168 - 
+            - Ditto, my own code here
+            - Just worked on cleaning up code.
+
+        Module 169
+            - Copy pong.py to breakout.py
+            - Copied main.py to main-pong.py
+            - Cleaned up main.py breakout.py
+
+
+### 4/23/26-, Coding Time 
+
+1. Main screen - Create the main screen
+
+    a. Back to reviewing the requirements
+    b. Then, laying out the main screen
+    c. 
 
 
 
-    5. Attack Plan 
+2. The paddle
 
-        a. Create the main screen
-        b. Make a paddle
-        c. Make the ball
-        d. Make the "blocks
-        e. Make the ball move
+3. The ball
 
+4. The "blocks"
+
+5. Moving ball
+
+6. Breaking blocks
+
+7. Bouncing ball
+
+8. Keeping score 
     
-
         
 
 
