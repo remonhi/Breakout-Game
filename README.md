@@ -169,18 +169,22 @@ Okay, life interrupted and
 
     a. First address OneDrive issues
         - Confirm able to push my 'Day 87' code to GitHub
+        - For now, just move 'Day 87' into Documents/Python-Local/
+        - Wait for OneDrive sync to finish, and the move entire Python "tree" over to Documents
         - Then, move everything under Python to a local directory
         - Last, setup rsync for a backup to OneDrive
         - Finally, moving forward with everything in a "local" file system
         - 
     
+...shit, it is really hard getting time to code.   
+
     b. Back to reviewing the requirements
     
     c. Then, laying out the main screen
     
     d.
-    
-     
+
+
 
 2. The paddle
 
