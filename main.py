@@ -9,15 +9,15 @@ import random      #- for random number generation
 import os          #- for OS commands to clear the screen
 
 
-# - Yellow -  Information with a general, but relative importance
-# ? Orange -  Examples, abbreviations, acronyms, or explanations
-# + Green -   Key words, proper nouns, dates, symbols or mathematical formulas
-# ~ Blue -    Definitions of key words, or tabular data
-# ! Pink -    Important, relative to a test or my career
-# * Purple -  Personal interest
+#- Yellow -  Information with a general, but relative importance
+#? Orange -  Examples, abbreviations, acronyms, or explanations
+#+ Green -   Key words, proper nouns, dates, symbols or mathematical formulas
+#~ Blue -    Definitions of key words, or tabular data
+#! Pink -    Important, relative to a test or my career
+#* Purple -  Personal interest
 # // Gray - Done
 
-# - establishing variables, immporting modules and setting up functions
+#- establishing variables, immporting modules and setting up functions
 
 W = 800
 H = 600
@@ -28,7 +28,7 @@ def quit_app():
     game_over = True
     screen.bye()   #- closes the window
 
-# - the MAIN program
+#- the MAIN program
 
 lib.clear_screen()  # - text based
 title = "Breakout"
@@ -37,7 +37,7 @@ nam = nam.replace(".py", "")
 day = title + " - " + nam
 print(art.text2art(title, font='medium'))
 
-# - Module 161 | Setting up the screen
+#- Main screen
 
 screen = turtle.Screen()
 screen.bgcolor("black")
@@ -53,55 +53,57 @@ screen.tracer(0)  # - turning off the annimation
 
 game_over = False
 
-right_paddle = breakout.Paddle((350, 0))
-left_paddle = breakout.Paddle((-350, 0))
-ball = breakout.Ball()
-scoreboard = breakout.Scoreboard()
+paddle = breakout.Paddle((0,0 - H/2 + breakout.B *2), W) #? starting at bottom of screen, the B is the default Turtle size 
+#ball = breakout.Ball()
+#scoreboard = breakout.Scoreboard()
 
 screen.update()  #- update the screen because tracer turned off the animation
 screen.listen()  #- this is essential for reading from the keyboard 
 
-screen.onkey(right_paddle.up, "Up")
-screen.onkey(right_paddle.down, "Down")
-screen.onkey(left_paddle.up, "w")
-screen.onkey(left_paddle.down, "s")
+screen.onkey(paddle.left, "Left")
+screen.onkey(paddle.right, "Right")
 screen.onkey(quit_app, "q")
 screen.onkey(quit_app, "Q")
 
-ball.setheading(random.randint(0, 360)) #! - pick a random direction 
+#ball.setheading(random.randint(0, 360)) #! - pick a random direction 
 #ball.setheading(10)                     # 
-ball.goto(0, 0)
+#ball.goto(0, 0)
 
 try: 
     while not game_over:
-        #- bound off top and bottom
-        if ball.ycor() >= (H/2) or ball.ycor() <= (-H/2):
-            ball.bounce_wall()
-            print("bounce off the wall")
+        #! managing the paddle position
+        if paddle.xcor() >= W/2:
+            #- move then, move left
+            paddle.left
+            print("off the screen")
+        # #- bound off top and bottom
+        # if ball.ycor() >= (H/2) or ball.ycor() <= (-H/2):
+        #     ball.bounce_wall()
+        #     print("bounce off the wall")
 
-        #- bounce off paddle if not pass the paddle 
-        if ball.distance(right_paddle) < 50 and ball.xcor() > (H/2-C) or ball.distance(left_paddle) < 50 and ball.xcor() < -(H/2-C):
-            ball.bounce_paddle()
-            print("bounce off the paddle")
+        # #- bounce off paddle if not pass the paddle 
+        # if ball.distance(right_paddle) < 50 and ball.xcor() > (H/2-C) or ball.distance(left_paddle) < 50 and ball.xcor() < -(H/2-C):
+        #     ball.bounce_paddle()
+        #     print("bounce off the paddle")
 
-        #- miss by player and start moving in the opposite direction
-        if ball.xcor() >= (W/2) or ball.xcor() <= (-W/2):
-            if ball.xcor() >= (W/2):
-                scoreboard.left_score += 1
-                scoreboard.board_update()
-            elif ball.xcor() <= (-W/2):
-                scoreboard.right_score += 1
-                scoreboard.board_update()
+        # #- miss by player and start moving in the opposite direction
+        # if ball.xcor() >= (W/2) or ball.xcor() <= (-W/2):
+        #     if ball.xcor() >= (W/2):
+        #         scoreboard.left_score += 1
+        #         scoreboard.board_update()
+        #     elif ball.xcor() <= (-W/2):
+        #         scoreboard.right_score += 1
+        #         scoreboard.board_update()
 
-            #! reset the ball 
-            ball.goto(0, 0)
-            ball.setheading(180 - ball.heading())
-            screen.update()
-            time.sleep(3)
-            print("reset after miss by player")
+        #     #! reset the ball 
+        #     ball.goto(0, 0)
+        #     ball.setheading(180 - ball.heading())
+        #     screen.update()
+        #     time.sleep(3)
+        #     print("reset after miss by player")
 
-        ball.move() #- keep the game going 
-        time.sleep(0.01) #! so I can see the ball 
+        # ball.move() #- keep the game going 
+        # time.sleep(0.01) #! so I can see the ball 
         screen.update() #- fun with Turtle 
 
 except turtle.Terminator:

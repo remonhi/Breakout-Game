@@ -168,29 +168,38 @@ Okay, life interrupted and
 1. Main screen - Create the main screen
 
     a. First address OneDrive issues
-        - Confirm able to push my 'Day 87' code to GitHub
-        - For now, just move 'Day 87' into Documents/Python-Local/
-        - Wait for OneDrive sync to finish, and the move entire Python "tree" over to Documents
-        - Then, move everything under Python to a local directory
+        - Confirm able to push my 'Day 87' code to GitHub ✅
+        - For now, just move 'Day 87' into Documents/Python-Local/ → mv 'Day 87' $HOME/Documents/Python-Local/ ✅
+        - Wait for OneDrive sync to finish, and the move entire Python "tree" over to Documents - 🚩
         - Last, setup rsync for a backup to OneDrive
         - Finally, moving forward with everything in a "local" file system
         - 
     
-...shit, it is really hard getting time to code.   
+        ...shit, it is really hard getting time to code.   Also, still fighting with OneDrive; however, got the code for my current project moved and "local."  I cleaned up and verified it still worked.  
 
-    b. Back to reviewing the requirements
+    b. Main screen 📺✅
+        - Yeah, I started with my "leftovers" from my Pong project.
+        - For some reason thought original breakout was portrait, but also landscape so updated screen to W=800 & H=600
     
-    c. Then, laying out the main screen
-    
-    d.
-
-
-
 2. The paddle
-
+    a. Hmmm, I almost pulled a "vibe coding" approach and geting the code from AI; however, dicided to hack my old code.
+    b. I began with Paddle class that was in breakout.py
+    c. I mangaed to create a paddle, but then realized it needed to be moved to a differnet location on the screen and a few other challenges...
+       i. Move to "bottom" of screen. ✔️
+       ii. Stop from running off the screen - ⬅️
+            - Yeah, I decided this works best in the while loop
+            - Again, I tried to attack this with my own brain 
+            - This was not working, so got help and decided to pass the screen_width to Paddle class
+            - RAN OUT OF TIME for 4/27
+            - On 4/28, continue to clean this up. 
+    
+    
 3. The ball
+    a. AGain, I decided to "hack" my old Pong code and not use AI
 
 4. The "blocks"
+    a. Yes, I had to use AI here or rather look for examples on the internet.
+
 
 5. Moving ball
 

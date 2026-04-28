@@ -39,12 +39,12 @@ def random_color():
 
 # - define a class named Paddle
 
-L = 20
-W = 100
+L = 100
+W = 20
 B = 20
 
 class Paddle(turtle.Turtle):
-    def __init__(self, coordinates):
+    def __init__(self, coordinates, screen_width):
         super().__init__()
         self.shape("square")
         self.penup()
@@ -53,18 +53,17 @@ class Paddle(turtle.Turtle):
         self.speed("fastest")
         self.goto(coordinates[0], coordinates[1])
 
-    def up(self):
-        print("UP")
-        x = self.xcor()
-        y = self.ycor() + B*2
+    def left(self):
+        print("LEFT")
+        x = self.xcor() - B*2
+        y = self.ycor()
         self.goto(x, y)
 
-    def down(self):
-        print("DOWN")
-        x = self.xcor()
-        y = self.ycor() - B*2
+    def right(self):
+        print("RIGHT")
+        x = self.xcor() + B*2
+        y = self.ycor() 
         self.goto(x, y)
-
 
 class Ball(turtle.Turtle):
     def __init__(self):
