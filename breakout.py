@@ -49,21 +49,35 @@ class Paddle(turtle.Turtle):
         self.shape("square")
         self.penup()
         self.shapesize(stretch_len=L/B, stretch_wid=W/B)
+        self.setheading(0)
         self.color("white")
         self.speed("fastest")
         self.goto(coordinates[0], coordinates[1])
+        self.screen_width = screen_width
+        self.paddle_half = (L/B) * 10   #! pixels versus coordiantes 
+        self.length = L
+        self.base = B 
+        print("paddle width:", L, "paddle height:", W)
+        print(turtle.getshapes())
+        print(self.shape())
+
 
     def left(self):
         print("LEFT")
-        x = self.xcor() - B*2
+        x = self.xcor() - self.base
         y = self.ycor()
-        self.goto(x, y)
+        left_limit = -(self.screen_width / 2) + self.length/2
+        if x >= left_limit:
+            self.goto(x, y)
 
     def right(self):
         print("RIGHT")
-        x = self.xcor() + B*2
-        y = self.ycor() 
-        self.goto(x, y)
+        x = self.xcor() + self.base
+        y = self.ycor()
+        right_limit = (self.screen_width / 2) - self.length/2
+        if x <= right_limit:
+            self.goto(x, y)
+
 
 class Ball(turtle.Turtle):
     def __init__(self):
