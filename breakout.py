@@ -79,6 +79,30 @@ class Paddle(turtle.Turtle):
             self.goto(x, y)
 
 
+class Block(turtle.Turtle):
+    def __init__(self, x, y, color="white"):
+        super().__init__()
+        self.shape("square")
+        self.penup()
+        self.shapesize(stretch_len=W/B, stretch_wid=L/B)
+        self.color(color)
+        self.speed("fastest")
+        self.goto(x, y)
+        self.length = L
+        self.height = W
+        self.half_width = L / 2
+        self.half_height = W / 2
+
+    def hit(self):
+        self.hideturtle()
+        self.goto(2000, 2000)   # move off-screen
+
+
+
+
+
+
+
 class Ball(turtle.Turtle):
     def __init__(self):
         super().__init__()

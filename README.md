@@ -170,7 +170,12 @@ Okay, life interrupted and
     a. First address OneDrive issues
         - Confirm able to push my 'Day 87' code to GitHub ✅
         - For now, just move 'Day 87' into Documents/Python-Local/ → mv 'Day 87' $HOME/Documents/Python-Local/ ✅
-        - Wait for OneDrive sync to finish, and the move entire Python "tree" over to Documents - 🚩
+        - Wait for OneDrive sync to finish, and the move entire Python "tree" over to Documents - ✅
+            i. Well, this was another rabbit hole
+            ii. Had to get some help to stop entire Python directory from trying to download 
+            iii. Seem that a larger 'Always Keep on this Device' causes OneDrive to crash
+            iv. I think it is BS now that MS has all my data, so just need to think about how we move forward
+            v. 
         - Last, setup rsync for a backup to OneDrive
         - Finally, moving forward with everything in a "local" file system
         - 
@@ -181,24 +186,38 @@ Okay, life interrupted and
         - Yeah, I started with my "leftovers" from my Pong project.
         - For some reason thought original breakout was portrait, but also landscape so updated screen to W=800 & H=600
     
-2. The paddle
+2. The paddle ✅
     a. Hmmm, I almost pulled a "vibe coding" approach and geting the code from AI; however, dicided to hack my old code.
     b. I began with Paddle class that was in breakout.py
     c. I mangaed to create a paddle, but then realized it needed to be moved to a differnet location on the screen and a few other challenges...
        i. Move to "bottom" of screen. ✔️
-       ii. Stop from running off the screen - ⬅️
+       ii. Stop from running off the screen - 
             - Yeah, I decided this works best in the while loop
             - Again, I tried to attack this with my own brain 
             - This was not working, so got help and decided to pass the screen_width to Paddle class
             - RAN OUT OF TIME for 4/27
-            - On 4/28, continue to clean this up. 
-    
-    
-3. The ball
-    a. AGain, I decided to "hack" my old Pong code and not use AI
+            - On 4/28, continue to clean this up & also looked to address moving all my code over 
+            - I got it work and then went down rabbit hole about Turtle shapes and screen coordiantes. 
+    d. Hmmm, when down a rabbit hole away from key board and decided to pull the classes into the main.
+    e. Also, went back to fix the "screen edge" issue using max() and mim() functions for the "limits"
+        
 
-4. The "blocks"
-    a. Yes, I had to use AI here or rather look for examples on the internet.
+3. The "blocks"
+    a. Yes, I had to use AI here but as aid (not vibe coding) 🫤
+    b. Again, not wanting to become a Turtle module guru; however, wanted to make sure code is in my conventions 🐢
+    c. 5/6 - Okay, got the first row created 👍🏾
+    d. 5/7 - Work on making just 5 rows of blocks 
+
+
+3. The ball
+    a. 5/7 - Create the ball and get it moving
+        - AGain, I decided to "hack" my old Pong code and not use AI
+    b. 5/9 - Working "bounce"....
+        - From paddle
+        - Hitting a block
+
+
+
 
 
 5. Moving ball
