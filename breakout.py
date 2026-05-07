@@ -37,46 +37,7 @@ def random_color():
     b = random.randint(0, 255)
     return (r, g, b)
 
-# - define a class named Paddle
 
-L = 100
-W = 20
-B = 20
-
-class Paddle(turtle.Turtle):
-    def __init__(self, coordinates, screen_width):
-        super().__init__()
-        self.shape("square")
-        self.penup()
-        self.shapesize(stretch_len=L/B, stretch_wid=W/B)
-        self.setheading(0)
-        self.color("white")
-        self.speed("fastest")
-        self.goto(coordinates[0], coordinates[1])
-        self.screen_width = screen_width
-        self.paddle_half = (L/B) * 10   #! pixels versus coordiantes 
-        self.length = L
-        self.base = B 
-        print("paddle width:", L, "paddle height:", W)
-        print(turtle.getshapes())
-        print(self.shape())
-
-
-    def left(self):
-        print("LEFT")
-        x = self.xcor() - self.base
-        y = self.ycor()
-        left_limit = -(self.screen_width / 2) + self.length/2
-        if x >= left_limit:
-            self.goto(x, y)
-
-    def right(self):
-        print("RIGHT")
-        x = self.xcor() + self.base
-        y = self.ycor()
-        right_limit = (self.screen_width / 2) - self.length/2
-        if x <= right_limit:
-            self.goto(x, y)
 
 
 class Block(turtle.Turtle):

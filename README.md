@@ -202,33 +202,29 @@ Okay, life interrupted and
     e. Also, went back to fix the "screen edge" issue using max() and mim() functions for the "limits"
         
 
-3. The "blocks"
+3. The "blocks" ✅
     a. Yes, I had to use AI here but as aid (not vibe coding) 🫤
     b. Again, not wanting to become a Turtle module guru; however, wanted to make sure code is in my conventions 🐢
     c. 5/6 - Okay, got the first row created 👍🏾
-    d. 5/7 - Work on making just 5 rows of blocks 
-
+    d. 5/7 - Work on making just 5 rows of blocks 😎
+        - just had to note, this was really fun section
+        - I mininzed the use of AI and used my brain to address the columns and colors
+        - Used AI for alternative (stampping) to drawing individual bocks
 
 3. The ball
     a. 5/7 - Create the ball and get it moving
-        - AGain, I decided to "hack" my old Pong code and not use AI
-    b. 5/9 - Working "bounce"....
-        - From paddle
-        - Hitting a block
+        - Again, I decided to "hack" my old Pong code and not use AI
+        - Then, I got help with...
+            • paddle collision 💥
+            • block collision 💥
+        - The ball was moving way too fast, added time delay in loop. 🐇
+        - Then, was getting a weird exit error (fun with Turtle). 🐢
+        - Last, randomized the start of the ball. 
 
-
-
-
-
-5. Moving ball
-
-6. Breaking blocks
-
-7. Bouncing ball
-
-8. Keeping score 
-    
-        
+4. Keeping score ❌
+    - Yeah, I feel like lessons have been learned with this project
+    - For the sake of this class, I am skipping this for now
+    - I learned how to keep score in Day 22    
 
 
 
