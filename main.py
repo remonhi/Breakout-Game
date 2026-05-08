@@ -1,6 +1,3 @@
-
-import breakout    #! starting with the pong game, but slowly transformed 
-import lib         #* my own library of "stuff" 
 import time        #- for time function
 import art         #- for ASCII art
 import turtle      #- for turtle (the old Tcl/Tk) graphics
@@ -8,7 +5,6 @@ import time        #- for time functions
 import random      #- for random number generation
 import os          #- for OS commands to clear the screen
 import tkinter     #- to get the TK/TL errors 
-
 
 #- Yellow -  Information with a general, but relative importance
 #? Orange -  Examples, abbreviations, acronyms, or explanations
@@ -31,11 +27,16 @@ block_width = 100                           # don't know why I love this size
 block_height = 20
 block_gap = 2  
 ball_start = 0
-paddle_start = 0 - H/2 + C*3 
+paddle_start = 0 - H/2 + C*4 
 
 message_text = ""
 message_timer = 0
 
+def clear_screen():
+    if os.name == 'nt':  # 'nt' stands for Windows
+        os.system('cls')
+    else:  # For macOS and Linux (posix-based systems)
+        os.system('clear')
 
 class Paddle(turtle.Turtle):
     def __init__(self, coordinates):
@@ -52,11 +53,8 @@ class Paddle(turtle.Turtle):
         self.goto(coordinates[0], coordinates[1])
         self.screen_width = W
         self.paddle_half = (self.length/self.base) * 10   #! pixels versus coordiantes 
-        print(turtle.getshapes())
-        print(self.shape())
 
     def left(self):
-        print("LEFT")
         x = self.xcor() - self.width*4
         y = self.ycor()
         left_limit = -(self.screen_width / 2) + self.length/2
@@ -64,13 +62,11 @@ class Paddle(turtle.Turtle):
         self.goto(x, y)
 
     def right(self):
-        print("RIGHT")
         x = self.xcor() + self.width*4
         y = self.ycor()
         right_limit = (self.screen_width / 2) - self.length/2
         x = min(x, right_limit)
         self.goto(x, y)
-
 
 class Ball(turtle.Turtle):
     def __init__(self, start_x=0, start_y=0, speed=4):
@@ -103,7 +99,6 @@ class Ball(turtle.Turtle):
         self.goto(0, 0)
         self.bounce_y()
 
-
 def draw_blocks():
     blocks.clear()
     for b in block_dic:
@@ -126,7 +121,6 @@ def check_paddle_collision(ball, paddle):
     # Ball bottom
     ball_bottom = ball.ycor() - ball.radius
 
-    # Collision check
     if (
         ball.dy < 0 and                         #? is moving downward
         p_left <= ball.xcor() <= p_right and    #? the ball’s x‑position is horizontally inside the paddle (algebric inequality)
@@ -140,53 +134,37 @@ def check_block_collision(ball, block_dic):
         if not b["alive"]:
             continue
 
-        # Block bounds
         left   = b["x"] - block_width/2
         right  = b["x"] + block_width/2
         top    = b["y"] + block_height/2
         bottom = b["y"] - block_height/2
 
-        # Ball position
         bx = ball.xcor()
         by = ball.ycor()
         r = ball.radius
 
-        # Collision check
         if (left - r <= bx <= right + r and
             bottom - r <= by <= top + r):
-
-            # Mark block dead
             b["alive"] = False
-
-            # Bounce the ball
             ball.bounce_y()
-
             return True   # stop after first hit
-
-
-
 
     return False
 
 
 def check_wall_collision(ball):
-    # Left wall
-    if ball.xcor() - ball.radius <= -W/2:
+
+    if ball.xcor() - ball.radius <= -W/2: # left 
         ball.bounce_x()
 
-    # Right wall
-    if ball.xcor() + ball.radius >= W/2:
+    if ball.xcor() + ball.radius >= W/2: # right 
         ball.bounce_x()
 
-    # Top wall
-    if ball.ycor() + ball.radius >= H/2:
+    if ball.ycor() + ball.radius >= H/2: # top 
         ball.bounce_y()
 
-    # Bottom (missed ball)
-    if ball.ycor() - ball.radius <= -H/2:
+    if ball.ycor() - ball.radius <= -H/2: # bottom 
         return "miss"
-
-
 
 
 def show_message(text, duration=0.7):
@@ -195,7 +173,6 @@ def show_message(text, duration=0.7):
     message_timer = duration
     message.clear()
     message.write(text, align="center", font=("Arial", 20, "bold"))
-
 
 def quit_app():
     global game_over
@@ -207,10 +184,9 @@ def start_game():
     game_running = True
     message.clear()
 
-
 #- the MAIN program
 
-lib.clear_screen()  # - text based
+clear_screen()  # - text based
 title = "Breakout"
 nam = os.path.basename(__file__)
 nam = nam.replace(".py", "")
@@ -264,14 +240,13 @@ message.hideturtle()
 message.penup()
 message.color("white")
 
-
 #- getting things moving 
 
 screen.update()  #- update the screen because tracer turned off the animation
 screen.listen()  #- this is essential for reading from the keyboard 
 
-screen.onkey(paddle.left, "Left")
-screen.onkey(paddle.right, "Right")
+screen.onkeypress(paddle.left, "Left")
+screen.onkeypress(paddle.right, "Right")
 screen.onkey(quit_app, "q")
 screen.onkey(quit_app, "Q")
 screen.onkey(start_game, "space")
@@ -283,10 +258,11 @@ message.write(
         align="center",
         font=("Arial", 24, "bold")
     )
-
-# --- WAIT HERE until SPACE or Q ---
-while not game_running:
-    screen.update()
+while not game_running: # waiting for q or space 
+    try:
+        screen.update()
+    except turtle.Terminator:
+        break
 
 try:
     while not game_over:
@@ -296,11 +272,17 @@ try:
             if message_timer <= 0:
                 message.clear()
 
+        try:                                            #- stopping Turtle class from freaking out 
+            ball.move()                                 #- move the ball BEFORE checking collisions
+        except (turtle.Terminator, tkinter.TclError):   #- hopefully a clean exit from Turtle screen 
+            break
+
 
         check_paddle_collision(ball, paddle)            #- hitting the paddle
 
         if check_block_collision(ball, block_dic):      #- hitting the blocks 
             draw_blocks()
+
             if all(not b["alive"] for b in block_dic):  #- if all blocks cleared
                 show_message("Done!", duration=1.5)
 
@@ -314,7 +296,13 @@ try:
                 game_running = False
 
                 while not game_running:
-                    screen.update()
+                    try:
+                        screen.update()
+                    except turtle.Terminator:
+                        break
+
+                if game_over:
+                        break
 
                 ball.reset()
                 paddle.reset()
@@ -324,27 +312,29 @@ try:
 
                 continue
 
-                
-
         result = check_wall_collision(ball)             #- bouncing off the wall
         if result == "miss":
-            ball.reset()        # put ball back at center
+            ball.reset()                                # put ball back at center
             show_message("Miss!")
-            screen.update()
-            time.sleep(1)       # pause for a moment
-            continue            # skip the rest of the loop this frame
+            try:
+                screen.update()
+            except turtle.Terminator:
+                break
+            time.sleep(1)                               # pause for a moment
+            continue                                    # skip the rest of the loop this frame
 
-        screen.update()                                 #- updating the screen 
-
-        try:                                            #- stopping Turtle class from freaking out 
-            ball.move()                                 #- then moving the ball
-        except (turtle.Terminator, tkinter.TclError):           #- hopefully a clean exit from Turtle screen 
+        try:
+            screen.update()                             #- updating the screen 
+        except turtle.Terminator:
             break
 
         time.sleep(0.005)                               #- slowing the ball down
 
 except turtle.Terminator:
     pass
+
+
+
 
 
 

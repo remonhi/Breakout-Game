@@ -163,7 +163,7 @@ Okay, life interrupted and
 
 
 
-### 4/23/26-, Coding Time 
+### 4/23/26-5/7/26, Coding Time 
 
 1. Main screen - Create the main screen
 
@@ -211,7 +211,7 @@ Okay, life interrupted and
         - I mininzed the use of AI and used my brain to address the columns and colors
         - Used AI for alternative (stampping) to drawing individual bocks
 
-3. The ball
+4. The ball ✅
     a. 5/7 - Create the ball and get it moving
         - Again, I decided to "hack" my old Pong code and not use AI
         - Then, I got help with...
@@ -221,21 +221,44 @@ Okay, life interrupted and
         - Then, was getting a weird exit error (fun with Turtle). 🐢
         - Last, randomized the start of the ball. 
 
-4. Keeping score ❌
+4. Keeping score ✅
     - Yeah, I feel like lessons have been learned with this project
     - For the sake of this class, I am skipping this for now
-    - I learned how to keep score in Day 22    
+    - I learned how to keep score in Day 22  
+    - However, I would like acknowledge messages
+        - Hit!
+        - Miss!
+        - Done!  
 
 
 
 
 
-### TBD, Wrapping Up
+5/7/26, Wrapping Up
 
 1. Testing
-2. Documentation
-3. Lesson
-4. Push
+    a. Noted sticky paddle, so updated from onkey() to onkeyress. 👍🏾
+    b. Seems like I missed but ball bounces, had to change order  of check_paddle_collision() and ball.move()👍🏾
+    c. Had some weird errors with quiting, that turned out to be Turtle quirks 👍🏾
+
+2. Documentation - N/A ❌
+
+3. Lesson... 😎
+
+    Whew, this project was an example the cliché “lift gets in the way.”  Also, I have just not been crazy about using Turtle as I am more interested in developing data analysis, transformation, etc. type application. Yet, I felt there was some value in developing my coding skills about working through this one.  While life was “getting in the way,” I slowly worked through this project.  Then, once I finally cleared all the issue, I was able to put my head down and wrap this up.   Overall, the basic Python was easy.  The challenge was understanding how the Turtle library worked and “bending” it to my will.  
+    So, with that, my approach was…
+
+    1.	Refresh on Turtle knowledge
+    2.	Research history of Breakout game
+    3.	Layout my attack plan
+    4.	Work through any issues
+    5.	Test the code
+    6.	Wrap it up
+
+    My code is at https://github.com/remonhi/Breakout-Game
+
+
+4. Push - DONE ✅
 
 
 
